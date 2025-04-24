@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conseils - Recyclopedia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- variables de couleurs et thèmes --- */
+        /* definition des couleurs de base pour le site */
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --light-color: #E8F5E9;
+            --dark-color: #1B5E20;
+            --accent-color: #8BC34A;
+            --text-color: #333;
+            --text-light: #f8f8f8;
+            --header-bg: var(--primary-color);
+            --main-bg: linear-gradient(135deg, var(--light-color) 70%, #fff 100%);
+            --card-bg: #fff;
+            --card-shadow: 0 8px 24px rgba(76,175,80,0.07);
+        }
+        
+        /* mode sombre avec couleurs inversées */
+        [data-theme="dark"] {
+            --primary-color: #1B5E20;
+            --secondary-color: #4CAF50;
+            --light-color: #222;
+            --dark-color: #121212;
+            --accent-color: #8BC34A;
+            --text-color: #E0E0E0;
+            --text-light: #fafafa;
+            --header-bg: #121212;
+            --main-bg: linear-gradient(135deg, #181f1a 70%, #222 100%);
+            --card-bg: #222e24;
+            --card-shadow: 0 8px 24px rgba(44, 88, 44, 0.18);
+        }
+        
+        /* style de base du body + fond dégradé */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--main-bg);
+            margin: 0;
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background 0.35s, color 0.35s;
+        }
+        
+        /* header fixe qui reste en haut pendant le scroll */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* conteneur du header avec logo et menu */
+        .header-container {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* style du titre avec icône */
+        .logo-container h1 {
+            font-size: 1.6rem;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* taille icône recyclage */
+        .logo-container i {
+            font-size: 2rem;
+        }
+        
+        /* menu navigation aligné à droite */
+        nav {
+            justify-self: end;
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        
+        /* style des liens de navigation */
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        /* effet hover sur les liens */
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* style pour page active */
+        nav .pagecourante {
+            background-color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        /* bouton pour changer theme clair/sombre */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            cursor: pointer;
+            margin-left: 18px;
+            transition: color 0.25s, background 0.25s;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* hover sur bouton theme */
+        .theme-toggle-btn:hover {
+            background: rgba(140, 195, 74, 0.16);
+            color: var(--secondary-color);
+        }
+        
+        /* contenu principal avec marge pour header */
+        main {
+            max-width: 800px;
+            margin: 130px auto 30px auto;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            padding: 40px 30px 30px 30px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* bloc centered pour message "bientôt disponible" */
+        .coming-soon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 70px;
+            color: var(--secondary-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* animation icône qui rebondit */
+        .coming-soon i {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            animation: bounce 1.3s infinite alternate;
+        }
+        
+        /* titre du message */
+        .coming-soon h2 {
+            font-size: 2.1rem;
+            margin: 0 0 15px 0;
+        }
+        
+        /* texte explicatif */
+        .coming-soon p {
+            font-size: 1.18rem;
+            color: #555;
+            text-align: center;
+        }
+        
+        /* mode sombre pour texte */
+        [data-theme="dark"] .coming-soon p { color: #b3b3b3; }
+        
+        /* définition animation rebondissement */
+        @keyframes bounce {
+            from { transform: translateY(0);}
+            to { transform: translateY(-18px);}
+        }
+        
+        /* responsive pour tablettes */
+        @media (max-width: 900px) {
+            main {
+                margin: 100px 10px 30px 10px;
+                padding: 28px 7vw;
+            }
+            .header-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            nav {
+                justify-self: center;
+                margin-top: 15px;
+            }
+        }
+        
+        /* responsive pour mobiles */
+        @media (max-width: 600px) {
+            main {
+                padding: 18px 2vw;
+            }
+            nav a {
+                margin: 5px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- header avec navigation -->
+<header>
+    <div class="header-container">
+        <!-- logo avec icône recyclage -->
+        <div class="logo-container">
+            <h1><i class="fas fa-recycle"></i> Recyclopedia</h1>
+        </div>
+        <!-- menu de navigation -->
+        <nav>
+            <a href="accueil.html">Accueil</a>
+            <a href="conseils.html" class="pagecourante">Conseils</a>
+            <a href="actualites.html">Actualités</a>
+            <a href="projets.html">Projets</a>
+            <a href="contact.html">Contact</a>
+            <!-- bouton mode sombre -->
+            <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Changer le mode sombre">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </nav>
+    </div>
+</header>
+<!-- contenu principal avec carte blanche -->
+<main>
+    <!-- message qui dit que la page arrive bientôt -->
+    <div class="coming-soon">
+        <i class="fas fa-seedling"></i>
+        <h2>Conseils éco-responsables</h2>
+        <p>La page arrive bientôt !<br>
+        Notre équipe prépare des astuces et guides pratiques pour rendre votre quotidien plus vert 🌱</p>
+        <p style="margin-top:24px; color:var(--accent-color); font-size:1.07rem;">Rendez-vous très prochainement !</p>
+    </div>
+</main>
+<!-- script pour mode sombre/clair -->
+<script>
+    // gestion du thème sombre/clair
+    const html = document.documentElement;
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    
+    // fonction pour appliquer le thème
+    function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if(theme === 'dark') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    }
+    
+    // fonction auto-exécutée pour charger le thème sauvegardé
+    // ou utiliser préférence système
+    (function(){
+        let saved = localStorage.getItem('theme');
+        if(!saved){
+            saved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        setTheme(saved);
+    })();
+    
+    // toggle du thème au clic
+    themeToggleBtn.addEventListener('click', function() {
+        setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+</script>
+</body>
+</html>

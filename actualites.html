@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - Recyclopedia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --light-color: #E8F5E9;
+            --dark-color: #1B5E20;
+            --accent-color: #8BC34A;
+            --text-color: #333;
+            --text-light: #f8f8f8;
+            --header-bg: var(--primary-color);
+            --main-bg: linear-gradient(135deg, var(--light-color) 70%, #fff 100%);
+            --card-bg: #fff;
+            --card-shadow: 0 8px 24px rgba(76,175,80,0.07);
+        }
+        [data-theme="dark"] {
+            --primary-color: #1B5E20;
+            --secondary-color: #4CAF50;
+            --light-color: #222;
+            --dark-color: #121212;
+            --accent-color: #8BC34A;
+            --text-color: #E0E0E0;
+            --text-light: #fafafa;
+            --header-bg: #121212;
+            --main-bg: linear-gradient(135deg, #181f1a 70%, #222 100%);
+            --card-bg: #222e24;
+            --card-shadow: 0 8px 24px rgba(44, 88, 44, 0.18);
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--main-bg);
+            margin: 0;
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background 0.35s, color 0.35s;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header-container {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .logo-container h1 {
+            font-size: 1.6rem;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-container i {
+            font-size: 2rem;
+        }
+        nav {
+            justify-self: end;
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 500;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        nav .pagecourante {
+            background-color: var(--secondary-color);
+            font-weight: bold;
+        }
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            cursor: pointer;
+            margin-left: 18px;
+            transition: color 0.25s, background 0.25s;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle-btn:hover {
+            background: rgba(140, 195, 74, 0.16);
+            color: var(--secondary-color);
+        }
+        main {
+            max-width: 1000px;
+            margin: 130px auto 30px auto;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            padding: 40px 30px 30px 30px;
+            transition: background 0.35s, box-shadow 0.3s;
+        }
+        .page-title {
+            text-align: center;
+            color: var(--secondary-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        [data-theme="dark"] .subtitle { color: #b3b3b3; }
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .news-card {
+            background: var(--light-color);
+            border-radius: 13px;
+            box-shadow: 0 2px 8px rgba(76,175,80,0.07);
+            padding: 26px 26px 18px 26px;
+            display: flex;
+            gap: 25px;
+            transition: background 0.35s;
+            align-items: flex-start;
+        }
+        .news-card img {
+            width: 140px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 10px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(76,175,80,0.09);
+        }
+        .news-content {
+            flex: 1;
+        }
+        .news-title {
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 8px 0;
+        }
+        .news-meta {
+            font-size: 0.98rem;
+            color: var(--accent-color);
+            margin-bottom: 7px;
+        }
+        .news-desc {
+            font-size: 1.06rem;
+            color: var(--text-color);
+            margin-bottom: 0;
+        }
+        [data-theme="dark"] .news-card { background: #243929; }
+        [data-theme="dark"] .news-desc { color: #e0ffe0; }
+        @media (max-width: 900px) {
+            main {
+                margin: 100px 10px 30px 10px;
+                padding: 28px 7vw;
+            }
+            .header-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            nav {
+                justify-self: center;
+                margin-top: 15px;
+            }
+            .news-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .news-card img {
+                width: 100%;
+                max-width: 300px;
+                height: 160px;
+                margin-bottom: 10px;
+                align-self: center;
+            }
+        }
+        @media (max-width: 600px) {
+            main {
+                padding: 18px 2vw;
+            }
+            nav a {
+                margin: 5px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="logo-container">
+            <h1><i class="fas fa-recycle"></i> Recyclopedia</h1>
+        </div>
+        <nav>
+            <a href="accueil.html">Accueil</a>
+            <a href="conseils.html">Conseils</a>
+            <a href="actualites.html" class="pagecourante">Actualités</a>
+            <a href="projets.html">Projets</a>
+            <a href="contact.html">Contact</a>
+            <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Changer le mode sombre">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="page-title">Actualités écologiques</div>
+    <div class="subtitle">Retrouvez ici les dernières nouvelles du monde de l’environnement, du recyclage et de la transition écologique.</div>
+    <div class="news-list">
+        <div class="news-card">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" alt="Recyclage plastique">
+            <div class="news-content">
+                <div class="news-title">Hausse du taux de recyclage du plastique en France 🇫🇷</div>
+                <div class="news-meta">Publié le 15 avril 2025</div>
+                <div class="news-desc">Le taux de recyclage du plastique en France a atteint 54% en 2024, un record historique ! Cette progression est due à une meilleure sensibilisation et à de nouveaux centres de tri automatisés.</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Nettoyage nature">
+            <div class="news-content">
+                <div class="news-title">Journée mondiale de la Terre : mobilisation record 🌍</div>
+                <div class="news-meta">Publié le 22 avril 2025</div>
+                <div class="news-desc">Des millions de citoyens se mobilisent aujourd’hui pour nettoyer plages, forêts et quartiers urbains. De nombreuses initiatives locales voient le jour afin de construire un avenir plus vert.</div>
+            </div>
+        </div>
+        <div class="news-card">
+            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Composteur">
+            <div class="news-content">
+                <div class="news-title">Le compost obligatoire en 2025 ♻️</div>
+                <div class="news-meta">Publié le 2 janvier 2025</div>
+                <div class="news-desc">Depuis le 1er janvier 2025, chaque foyer français doit disposer d’une solution pour trier les biodéchets. Une avancée majeure pour limiter le gaspillage et enrichir les sols.</div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    // Mode sombre / clair
+    const html = document.documentElement;
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if(theme === 'dark') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    }
+    (function(){
+        let saved = localStorage.getItem('theme');
+        if(!saved){
+            saved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        setTheme(saved);
+    })();
+    themeToggleBtn.addEventListener('click', function() {
+        setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+</script>
+</body>
+</html>
