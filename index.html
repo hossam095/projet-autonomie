@@ -1,0 +1,1570 @@
+<!DOCTYPE html> 
+<html lang="fr"> 
+<head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Recyclopedia - Pour un monde plus vert</title> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet"> 
+        <style>
+            /* --- variables de couleurs et thèmes --- */
+            /* definition de toutes les couleurs de base utilisation variables css pour pouvoir changer facilement et avoir un code plus propre */
+               
+            :root {
+                --primary-color: #4CAF50;
+                --secondary-color: #2E7D32;
+                --light-color: #E8F5E9;
+                --dark-color: #1B5E20;
+                --accent-color: #8BC34A;
+                --text-color: #333;
+                --text-light: #f8f8f8;
+                --main-bg: #f9f9f9;
+            }
+            
+            /* mode sombre en inversant les couleurs et j'utilise des fonds plus foncés pour moins fatiguer les yeux */
+            [data-theme="dark"] {
+                --primary-color: #1B5E20;
+                --secondary-color: #4CAF50;
+                --light-color: #222;
+                --dark-color: #121212;
+                --accent-color: #8BC34A;
+                --text-color: #E0E0E0;
+                --text-light: #fafafa;
+                --main-bg: #181f1a;
+            }
+            
+            /* reset css de base pour éviter les problèmes entre navigateurs */
+            * {margin: 0; padding: 0; box-sizing: border-box;}
+            
+            /* style de base du body + utilisation des variables pour faciliter le mode sombre */
+            body {
+                font-family: 'Montserrat', sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background: var(--main-bg);
+                transition: background 0.35s, color 0.35s;
+            }
+            
+            /* système de grille simple, limite la largeur max et centre le contenu */
+            .grid {
+                display: grid;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            
+            /* --- partie header fixe en haut --- */
+            /* header fixe qui reste visible quand on scrolle*/
+            header {
+                background-color: var(--primary-color);
+                color: var(--text-light);
+                position: fixed;
+                width: 100%;
+                top: 0; left: 0;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            .header-container {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                align-items: center;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .logo-container h1 {
+                font-size: 1.6rem;
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            /* taille de l'icône recyclage plus grande que le texte */
+            .logo-container i { font-size: 2rem; }
+            
+            nav {
+                justify-self: end;
+                display: flex;
+                align-items: center;
+                gap: 0;
+            }
+            
+            /* effets hover borders arrondis */
+            nav a {
+                color: var(--text-light);
+                text-decoration: none;
+                margin-left: 20px;
+                padding: 10px 15px;
+                border-radius: 20px;
+                transition: background-color 0.3s, transform 0.2s;
+                font-weight: 500;
+                display: inline-block;
+            }
+            
+            /* effet hover sur les liens, léger fond blanc transparent + animation qui monte le lien vers le haut */
+            nav a:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                transform: translateY(-3px);
+            }
+            
+            /* style pour la page active dans le menu faut ajouter la classe "pagecourante" au lien actif */
+            nav .pagecourante {
+                background-color: var(--secondary-color);
+                font-weight: bold;
+            }
+            
+            /* bouton pour changer de thème (jour/nuit) */
+            .theme-toggle-btn {
+                background: none;
+                border: none;
+                color: var(--accent-color);
+                font-size: 1.4rem;
+                cursor: pointer;
+                margin-left: 18px;
+                transition: color 0.25s, background 0.25s;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .theme-toggle-btn:hover {
+                background: rgba(140, 195, 74, 0.16);
+                color: var(--secondary-color);
+            }
+            
+
+            /* --- layout principal en grid --- */
+            /* grille principale avec 12 colonnes */
+            main.grid {
+                grid-template-columns: repeat(12, 1fr);
+                grid-gap: 30px;
+                padding: 120px 20px 60px;
+            }
+            
+            /* --- section hero (=bannière principale) --- */
+            .hero-section {
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 60px 0;
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+                color: var(--text-light);
+                border-radius: 15px;
+                margin-bottom: 30px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            /* astuce pour créer un overlay d'image en pseudo-élément*/
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+                background-size: cover;
+                background-position: center;
+                opacity: 0.2;
+                z-index: 0;
+            }
+            
+            /* z-index positif et position relative car le contenu du hero doit être au-dessus de l'image de fond*/
+            .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto;}
+            
+            .hero-section h2 {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+                text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            }
+            
+            .hero-section p {
+                font-size: 1.2rem;
+                max-width: 700px;
+                margin: 0 auto 30px;
+            }
+            
+            /* style des boutons d'action, arrondis et avec effets cette classe est réutilisée dans tout le site */
+            .btn {
+                display: inline-block;
+                padding: 12px 25px;
+                background-color: var(--accent-color);
+                color: white;
+                text-decoration: none;
+                border-radius: 30px;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                border: none;
+                cursor: pointer;
+            }
+            
+            .btn:hover {
+                background-color: var(--secondary-color);
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+            
+            /* --- blocs de contenu standard --- */
+            /* style général des blocs - utilisé partout */
+            .bloc {
+                background-color: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .bloc:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            }
+            
+            /* adaptation des blocs et cartes au mode sombre*/
+            [data-theme="dark"] .bloc, [data-theme="dark"] .carousel-slide, [data-theme="dark"] .card-content {
+                background: #243929 !important;
+                color: #d0ffd0;
+            }
+            
+            /* adaptation des stats cards au mode sombre */
+            [data-theme="dark"] .stat-card {
+                background: #243929;
+                color: #e0ffe0;
+            }
+            
+            [data-theme="dark"] .stat-number {
+                color: #8BC34A;
+            }
+            
+            .bloc h2 {
+                color: var(--secondary-color);
+                margin-bottom: 20px;
+                position: relative;
+                padding-bottom: 10px;
+            }
+            
+            .bloc h2::after {
+                content: '';
+                position: absolute;
+                bottom: 0; left: 0;
+                width: 60px; height: 3px;
+                background-color: var(--accent-color);
+            }
+            
+            .bloc-1 { grid-column: 1 / 9; }
+            
+            /* rangée qui contient conseils + calculateur divisée en 2 colonnes avec ratio 7:5 */
+            .actions-impact-row {
+                grid-column: 1 / -1;
+                display: grid;
+                grid-template-columns: 7fr 5fr;
+                grid-gap: 30px;
+                margin-bottom: 40px;
+            }
+            
+            /* responsive pour cette rangée, en colonne sur mobile */
+            @media (max-width: 1150px) {
+                .actions-impact-row { grid-template-columns: 1fr; grid-gap: 20px;}
+            }
+            
+            /* largeur du bloc 3 et du bloc plein */
+            .bloc-3 { grid-column: 7 / -1; }
+            .bloc-full { grid-column: 1 / -1; }
+            
+            /* --- cartes avec images --- */
+            .image-card {
+                grid-column: span 4;
+                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease;
+            }
+            
+            .image-card:hover { transform: translateY(-10px);}
+            
+            .image-card img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+            
+            /* zoom sur l'image au hover */
+            .image-card:hover img { transform: scale(1.05);}
+            
+            .image-card .card-content {
+                padding: 20px;
+                background: white;
+            }
+            
+            .image-card h3 {
+                color: var(--secondary-color);
+                margin-bottom: 10px;
+            }
+            
+            /* --- conteneur vidéo --- */
+            .video-container {
+                grid-column: 9 / -1;
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            
+            video, .video-placeholder {
+                width: 100%;
+                border-radius: 10px;
+            }
+            
+            /* légendes des figures */
+            figcaption {
+                text-align: center;
+                padding: 10px;
+                font-style: italic;
+            }
+            
+            /* --- stats et chiffres --- */
+            .stats-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: 20px;
+            }
+            
+            /* cartes de stats  */
+            .stat-card {
+                text-align: center;
+                padding: 30px 20px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            }
+            
+            /* chiffres des stats */
+            .stat-number {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: var(--primary-color);
+                margin-bottom: 10px;
+            }
+            
+            /* --- calculateur d'empreinte --- */
+            .eco-calculator {
+                padding: 35px 30px 30px 30px;
+                border-radius: 14px;
+                background: #ffffff;
+                box-shadow: 0 2px 10px rgba(140,195,74,0.12);
+                margin-bottom: 0;
+                border: 2px solid var(--primary-color);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            /* fond du calculateur en mode sombre */
+            [data-theme="dark"] .eco-calculator {
+                background: #243929;
+            }
+            
+            /* titre du calculateur un peu plus petit que les autres titres h2 */
+            .eco-calculator h3 {
+                margin-bottom: 18px;
+                font-size: 1.3rem;
+                color: var(--secondary-color);
+                font-family: 'Poppins', sans-serif;
+            }
+            
+            /* groupes de form espacés verticalement */
+            .eco-calculator .form-group {
+                margin-bottom: 18px;
+            }
+            
+            /* labels du form en semi-gras */
+            .eco-calculator label {
+                font-weight: 500;
+                margin-bottom: 2px;
+                display: block;
+            }
+            
+            /* style des input et select dans le calculateur avec fond légèrement coloré */
+            .eco-calculator .form-control {
+                width: 100%;
+                padding: 7px 12px;
+                border-radius: 7px;
+                border: 1px solid #b4e5b7;
+                margin-top: 3px;
+                margin-bottom: 10px;
+                font-size: 1rem;
+                background: #f8fff7;
+                color: var(--text-color);
+            }
+            
+            /* inputs en mode dark avec couleurs adaptées */
+            [data-theme="dark"] .eco-calculator .form-control {
+                background: #30523a;
+                color: #e0ffe0;
+                border: 1px solid #30523a;
+            }
+            
+            /* bouton calculer avec marge en haut */
+            .eco-calculator button.btn {
+                margin-top: 10px;
+            }
+            
+            /* barre de résultat pour l'affichage visuel du score */
+            .eco-calculator .result-bar {
+                width: 100%;
+                background: #f2f2f2;
+                border-radius: 11px;
+                height: 30px;
+                margin-bottom: 15px;
+                overflow: hidden;
+                border: 1px solid #b4e5b7;
+            }
+            
+            .eco-calculator #resultBar {
+                border-radius: 11px;
+            }
+            
+            [data-theme="dark"] .eco-calculator .result-bar {background: #2e4a2c;}
+            
+            /* --- carousel de conseils --- */
+            .eco-tips-carousel {
+                position: relative;
+                margin: 30px 0;
+                overflow: hidden;
+                border-radius: 10px;
+                background: #f3f9ee;
+                min-height: 220px;
+            }
+            
+            [data-theme="dark"] .eco-tips-carousel { background: #243929; }
+            
+            /* conteneur des slides qui bougent horizontalement+ transition fluide entre slides */
+            .carousel-container {
+                display: flex;
+                transition: transform 0.5s cubic-bezier(.77,0,.18,1);
+            }
+            
+            .carousel-slide {
+                min-width: 100%;
+                padding: 30px 28px 30px 54px;
+                box-sizing: border-box;
+                background-color: white;
+                position: relative;
+            }
+            
+            .carousel-slide li {
+                font-size: 1.1rem;
+                line-height: 1.7;
+            }
+            
+            [data-theme="dark"] .carousel-slide { background: #243929 !important;}
+            
+            .carousel-slide h3 { 
+                margin-bottom: 12px; 
+                color: var(--secondary-color);
+                font-size: 1.4rem; 
+            }
+            
+            .carousel-slide ul {
+                padding-left: 20px;
+                margin-top: 0;
+            }
+            
+            /* boutons de navigation du carousel */
+            .carousel-control {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: rgba(255,255,255,0.93);
+                border: none;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                font-size: 1.2rem;
+                cursor: pointer;
+                z-index: 2;
+                box-shadow: 0 2px 6px rgba(60,100,60,0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s, box-shadow 0.2s;
+            }
+            
+            .carousel-control:active { background: #e0ffe0; }
+            
+            /* position des boutons prev/next */
+            .carousel-prev { left: 8px; }
+            .carousel-next { right: 8px; }
+            
+            /* fix pour que les boutons ne chevauchent pas le texte, monte les flèches un peu + z-index plus élevé */
+            .carousel-control {
+                top: 40%;
+                z-index: 3;
+            }
+            
+            /* responsive pour le carousel */
+            @media (max-width: 800px) {
+                .carousel-slide { padding: 18px 8px 18px 32px;}
+                .carousel-control { width: 32px; height: 32px;}
+            }
+            @media (max-width: 600px) {
+                .eco-tips-carousel { min-height: 200px;}
+                .carousel-slide { padding: 15px 2px 15px 12px;}
+                .carousel-control { width: 28px; height: 28px; font-size: 1rem;}
+            }
+            
+            /* --- tableau de données --- */
+            /* wrapper pour permettre scroll horizontal */
+            .table-container { overflow-x: auto;}
+            
+            /* style général du tableau */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            
+            table, th, td { border: 1px solid #e0e0e0;}
+            
+            th, td {
+                padding: 12px 15px;
+                text-align: center;
+            }
+            
+            th {
+                background-color: var(--primary-color);
+                color: white;
+            }
+            
+            /* lignes alternées pour faciliter la lecture */
+            tr:nth-child(even) { background-color: #f9f9f9;}
+            
+            /* légende du tableau, plus visible et en couleur */
+            caption {
+                margin-bottom: 10px;
+                font-weight: 600;
+                color: var(--secondary-color);
+            }
+            
+            [data-theme="dark"] table {
+                background: #243929;
+                color: #e0ffe0;
+            }
+            
+            [data-theme="dark"] th,
+            [data-theme="dark"] td {
+                border-color: #456a4a;
+            }
+            
+            [data-theme="dark"] th {
+                background: #2E7D32;
+                color: #e0ffe0;
+            }
+            
+            [data-theme="dark"] tr:nth-child(even) {
+                background: #1f2d20;
+            }
+            
+            [data-theme="dark"] caption {
+                color: #8BC34A;
+            }
+            
+            /* --- footer --- */
+            /* pied de page vert foncé avec texte blanc*/
+            footer {
+                background-color: var(--secondary-color);
+                color: white;
+                padding: 50px 0 20px;
+                margin-top: 60px;
+                position: relative;
+            }
+            
+            /* grille responsive pour le footer  */
+            .footer-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-gap: 30px;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+            
+            .footer-section h3 {
+                margin-bottom: 20px;
+                position: relative;
+                padding-bottom: 10px;
+            }
+            
+            .footer-section h3::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 2px;
+                background-color: var(--accent-color);
+            }
+            
+            /* listes de liens dans le footer sans puces */
+            .footer-links { list-style: none;}
+            .footer-links li { margin-bottom: 10px;}
+            
+            .footer-links a {
+                color: #ccc;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+            
+            /* liens footer plus visibles au hover */
+            .footer-links a:hover { color: white;}
+            
+            /* partie copyright en bas du footer séparée par une finer ligne  */
+            .footer-bottom {
+                text-align: center;
+                padding-top: 30px;
+                margin-top: 30px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                font-size: 0.9rem;
+            }
+            
+            /* icônes sociales en flexbox pour aligner horizontal */
+            .footer-social-icons {
+                display: flex;
+                gap: 15px;
+                margin-top: 20px;
+            }
+            
+            /* icônes sociales en cercles */
+            .footer-social-icons a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background-color: rgba(255,255,255,0.1);
+                border-radius: 50%;
+                color: white;
+                font-size: 1.2rem;
+                transition: all 0.3s;
+                text-decoration: none;
+            }
+            
+            .footer-social-icons a:hover {
+                background-color: var(--primary-color);
+                transform: translateY(-3px);
+            }
+            
+            .newsletter-form {
+                display: flex;
+                margin-top: 20px;
+            }
+            
+            /* input newsletter prend tout l'espace disponible */
+            .newsletter-form input {
+                flex-grow: 1;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 30px 0 0 30px;
+                outline: none;
+            }
+            
+            /* bouton newsletter collé à l'input avec coin arrondi seulement à droite */
+            .newsletter-form button {
+                background-color: var(--accent-color);
+                color: white;
+                border: none;
+                padding: 0 20px;
+                border-radius: 0 30px 30px 0;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            
+            .newsletter-form button:hover {
+                background-color: var(--primary-color);
+            }
+            
+            /* --- éléments divers --- */
+            /* barre de progression en haut de page qui indique où on est dans la lecture */
+            .progress-container {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 5px;
+                z-index: 1001;
+            }
+            
+            /* partie colorée de la barre de progression */
+            .progress-bar {
+                height: 5px;
+                background-color: var(--accent-color);
+                width: 0%;
+            }
+            
+            /* bouton retour en haut fixé en bas à droite qui apparaît quand on scrolle */
+            .back-to-top {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 60px;
+                height: 60px;
+                background-color: var(--primary-color);
+                border-radius: 50%;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                cursor: pointer;
+                transition: all 0.3s;
+                z-index: 10;
+                text-decoration: none;
+            }
+            
+            .back-to-top:hover {
+                background-color: var(--secondary-color);
+                transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            }
+            
+            /* --- quiz interactif --- */
+            .quiz-section {
+                grid-column: 1 / -1;
+                margin-top: 0;
+                margin-bottom: 40px;
+                background: var(--card-bg);
+                border-radius: 13px;
+                box-shadow: 0 2px 8px rgba(76,175,80,0.13);
+                padding: 38px 20px 28px 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quiz-section h2 {
+                color: var(--secondary-color);
+                font-size: 2.1rem;
+                font-family: 'Poppins', sans-serif;
+                margin-bottom: 22px;
+            }
+            
+            .eco-quiz-multi {
+                max-width: 520px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            
+            .eco-quiz-multi .quiz-question {
+                margin-bottom: 12px;
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+            
+            /* liste des options sans puces */
+            .eco-quiz-multi .quiz-options {
+                list-style: none;
+                padding: 0;
+                margin-bottom: 10px;
+            }
+            
+            /* options cliquables avec transition pour l'effet sélection */
+            .eco-quiz-multi .quiz-options li {
+                margin: 8px 0;
+                padding: 10px 15px;
+                background-color: white;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+                border: 1px solid #e0e0e0;
+            }
+            
+            [data-theme="dark"] .eco-quiz-multi .quiz-options li {
+                background: #243929;
+                color: #e0ffe0;
+            }
+            
+            /* style pour l'option sélectionnée*/
+            .eco-quiz-multi .quiz-options li.selected {
+                background-color: var(--accent-color);
+                color: white;
+            }
+            
+            /* feedback après réponse (bon/mauvais) */
+            .eco-quiz-multi .quiz-feedback {
+                font-size: 1.03rem;
+                margin-bottom: 10px;
+            }
+            
+            .eco-quiz-multi .btn {
+                margin-top: 10px;
+                width: 100%;
+            }
+            
+            /* --- carte google maps --- */
+            /* conteneur pour la carte avec coins arrondis*/
+            .eco-map {
+                width: 100%;
+                height: 400px;
+                border-radius: 10px;
+                overflow: hidden;
+                margin: 20px 0;
+            }
+            
+            /* iframe google maps prend tout l'espace, sans bordure*/
+            .eco-map iframe {
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            
+            /* --- responsive --- */
+            /* breakpoint principal pour la rangée actions/impact */
+            @media (max-width: 1150px) {
+                .actions-impact-row { grid-template-columns: 1fr; }
+            }
+            
+            /* petits écrans */
+            @media (max-width: 992px) {
+                .header-container {
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+                nav { justify-self: center; margin-top: 15px;}
+                main.grid { grid-template-columns: 1fr; padding-top: 150px;}
+                .bloc-1, .actions-impact-row, .bloc-3, .image-card, .video-container, .quiz-section { grid-column: 1 / -1;}
+                .stats-container { grid-template-columns: 1fr; }
+            }
+            
+            /* mobiles */
+            @media (max-width: 768px) {
+                nav a {
+                    margin: 5px;
+                    padding: 8px 12px;
+                    font-size: 0.9rem;
+                }
+                .hero-section h2 { font-size: 2rem; }
+            }
+            
+            /* animation d'apparition pour les sections*/
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px);}
+                to { opacity: 1; transform: translateY(0);}
+            }
+            
+            /* classe pour les éléments qui doivent s'animer */
+            .animate-in {
+                animation: fadeIn 1s ease forwards;
+                opacity: 0;
+            }
+            
+            /* délais différents pour créer un effet de cascade*/
+            .delay-1 { animation-delay: 0.2s;}
+            .delay-2 { animation-delay: 0.4s;}
+            .delay-3 { animation-delay: 0.6s;}
+            .delay-4 { animation-delay: 0.8s;}
+            .delay-5 { animation-delay: 1s;}
+        </style>
+</head>
+        
+<body>
+    <!-- barre de progression qui montre où on est dans la page -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- en-tête fixe avec logo et menu de navigation -->
+    <header>
+        <div class="header-container">
+            <!-- logo avec icône recyclage -->
+            <div class="logo-container">
+                <h1><i class="fas fa-recycle"></i> Recyclopedia</h1>
+            </div>
+            
+            <!-- menu de navigation principal + bouton mode sombre -->
+            <nav>
+                <a href="accueil.html" class="pagecourante">Accueil</a>
+                <a href="conseils.html">Conseils</a>
+                <a href="actualites.html">Actualités</a>
+                <a href="projets.html">Projets</a>
+                <a href="contact.html">Contact</a>
+                <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Changer le mode sombre">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- contenu principal avec grille css -->
+    <main class="grid">
+        <!-- grande bannière avec titre et intro -->
+        <section class="hero-section animate-in">
+            <div class="hero-content">
+                <h2>Des gestes simples pour un monde plus vert</h2>
+                <p>Bienvenue sur Recyclopedia, votre guide vers un mode de vie durable. Découvrez comment contribuer à un avenir plus écologique à travers des gestes simples et efficaces au quotidien.</p>
+                <a href="#comment-agir" class="btn">Comment agir ?</a>
+            </div>
+        </section>
+        
+        <!-- bloc explicatif avec stats -->
+        <div class="bloc bloc-1 animate-in delay-1">
+            <h2>Pourquoi agir maintenant ?</h2>
+            <p>Face aux défis climatiques actuels, chaque geste compte. Notre planète subit des changements sans précédent&nbsp;: hausse des températures, événements météorologiques extrêmes, perte de biodiversité et pollution croissante des océans.</p>
+            <p>La bonne nouvelle ? Nous avons encore le pouvoir d'agir. Des études montrent que si nous modifions collectivement nos habitudes, nous pouvons limiter le réchauffement climatique à des niveaux gérables et préserver notre environnement pour les générations futures.</p>
+            
+            <!-- cartes avec chiffres animés -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="stat1">1.1°C</div>
+                    <p>Réchauffement global actuel depuis l'ère préindustrielle</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat2">8M</div>
+                    <p>Tonnes de plastique déversées dans les océans chaque année</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat3">68%</div>
+                    <p>Déclin des populations d'espèces sauvages depuis 1970</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- vidéo youtube intégrée -->
+        <div class="video-container animate-in delay-2">
+            <iframe width="375" height="250" src="https://www.youtube.com/embed/dnhMJ3inEks?si=iFXZ9tVY5acyumIm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <figcaption>Les impacts du changement climatique expliqués simplement</figcaption>
+        </div>
+        
+        <!-- 3 cartes avec images - thématiques principales -->
+        <div class="image-card animate-in delay-2">
+            <img src="https://images.unsplash.com/photo-1565118531796-763e5082d113?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tri des déchets">
+            <div class="card-content">
+                <h3>Le recyclage</h3>
+                <p>Une seconde vie pour nos déchets</p>
+            </div>
+        </div>
+        
+        <div class="image-card animate-in delay-3">
+            <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Jardin urbain">
+            <div class="card-content">
+                <h3>Jardin écologique</h3>
+                <p>Créez votre oasis de biodiversité</p>
+            </div>
+        </div>
+        
+        <div class="image-card animate-in delay-4">
+            <img src="https://www.vertchezvous.com/wp-content/uploads/2014/06/vcv-notre-vision.jpg" alt="Transport écologique">
+            <div class="card-content">
+                <h3>Mobilité verte</h3>
+                <p>Se déplacer en préservant la planète</p>
+            </div>
+        </div>
+        
+        <!-- rangée avec conseils et calculateur -->
+        <div class="actions-impact-row animate-in delay-3">
+            <div>
+                <!-- bloc de conseils avec carousel -->
+                <div class="bloc bloc-2" id="comment-agir">
+                    <h2>Comment agir au quotidien</h2>
+                    <p>Adopter un mode de vie plus écologique ne nécessite pas une transformation radicale. De petits changements dans nos habitudes quotidiennes peuvent avoir un impact significatif sur notre empreinte écologique.</p>
+                    
+                    <!-- carousel de conseils par catégorie -->
+                    <div class="eco-tips-carousel">
+                        <div class="carousel-container" id="tipsCarousel">
+                            <!-- conseils maison -->
+                            <div class="carousel-slide">
+                                <h3>À la maison</h3>
+                                <ul>
+                                    <li>Réduisez votre consommation d'eau en installant des limiteurs de débit</li>
+                                    <li>Optez pour des ampoules LED à basse consommation</li>
+                                    <li>Débranchez vos appareils électroniques en veille</li>
+                                    <li>Triez vos déchets et compostez vos restes alimentaires</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- conseils courses -->
+                            <div class="carousel-slide">
+                                <h3>Pour vos courses</h3>
+                                <ul>
+                                    <li>Privilégiez les produits locaux et de saison</li>
+                                    <li>Réduisez votre consommation de viande</li>
+                                    <li>Utilisez des sacs réutilisables</li>
+                                    <li>Achetez en vrac pour limiter les emballages</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- conseils transport -->
+                            <div class="carousel-slide">
+                                <h3>Pour vos déplacements</h3>
+                                <ul>
+                                    <li>Privilégiez la marche, le vélo ou les transports en commun</li>
+                                    <li>Pratiquez le covoiturage</li>
+                                    <li>Limitez les voyages en avion</li>
+                                    <li>Entretenez régulièrement votre véhicule pour réduire sa consommation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- boutons prev/next pour naviguer dans le carousel -->
+                        <button class="carousel-control carousel-prev" id="prevTip" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-control carousel-next" id="nextTip" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <!-- calculateur d'empreinte carbone interactif -->
+                <div class="bloc bloc-3" style="margin-bottom:0;">
+                    <h2>Calculez votre impact</h2>
+                    <div class="eco-calculator">
+                        <h3>Calculateur d'empreinte carbone</h3>
+                        <form id="carbonForm" autocomplete="off">
+                            <!-- choix du transport -->
+                            <div class="form-group">
+                                <label for="transport">Moyen de transport principal :</label>
+                                <select id="transport" class="form-control">
+                                    <option value="0">Marche/Vélo</option>
+                                    <option value="30">Transports en commun</option>
+                                    <option value="120">Voiture (seul)</option>
+                                    <option value="60">Voiture (covoiturage)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- choix conso viande -->
+                            <div class="form-group">
+                                <label for="meat">Consommation de viande :</label>
+                                <select id="meat" class="form-control">
+                                    <option value="0">Aucune (végétarien/végétalien)</option>
+                                    <option value="30">Occasionnelle (1-2 fois/semaine)</option>
+                                    <option value="70">Modérée (3-5 fois/semaine)</option>
+                                    <option value="100">Quotidienne</option>
+                                </select>
+                            </div>
+                            
+                            <!-- choix énergie -->
+                            <div class="form-group">
+                                <label for="energy">Source d'énergie principale :</label>
+                                <select id="energy" class="form-control">
+                                    <option value="10">Énergies renouvelables</option>
+                                    <option value="50">Mix énergétique standard</option>
+                                    <option value="100">Énergies fossiles</option>
+                                </select>
+                            </div>
+                            
+                            <!-- bouton pour calculer le score -->
+                            <button type="button" class="btn" id="calculateBtn">Calculer</button>
+                        </form>
+                        
+                        <!-- résultats cachés au début -->
+                        <div id="resultContainer" style="display: none; margin-top: 20px;">
+                            <h4>Votre empreinte carbone estimée :</h4>
+                            <div class="result-bar">
+                                <div id="resultBar" style="background-color: var(--primary-color); height: 30px; width: 0%; transition: width 1s ease;"></div>
+                            </div>
+                            <p id="resultText"></p>
+                            <p id="resultTips"></p>
+                            <button class="btn" id="resetCalculatorBtn" style="margin-top:18px; display:none;">Refaire le calcul</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- section quiz interactif -->
+        <section class="quiz-section animate-in delay-4" id="quiz-section">
+            <h2>Quiz écologique</h2>
+            <div class="eco-quiz-multi" id="ecoQuizMulti">
+                <!-- éléments qui seront remplis par js -->
+                <div id="quiz-multi-question"></div>
+                <ul class="quiz-options" id="quiz-multi-options"></ul>
+                <div class="quiz-feedback" id="quiz-multi-feedback"></div>
+                <button class="btn" id="quiz-multi-nextBtn">Valider</button>
+            </div>
+        </section>
+        
+        <!-- bloc pleine largeur avec map et tableau -->
+        <div class="bloc bloc-full animate-in delay-5">
+            <h2>Initiatives locales</h2>
+            <p>Découvrez les projets écologiques près de chez vous et rejoignez la communauté des éco-citoyens actifs.</p>
+            
+            <!-- carte google maps intégrée -->
+            <div class="eco-map" id="ecoMap">
+                <!-- iframe google maps accessible -->
+                <iframe width="100%" height="400" frameborder="0" style="border:0" 
+                src="https://www.google.com/maps/embed/v1/search?q=recyclage+france&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8" 
+                allowfullscreen></iframe>
+            </div>
+            
+            <!-- tableau de données sur le recyclage -->
+            <h2 style="margin-top: 40px;">Données sur le recyclage en France</h2>
+            <div class="table-container">
+                <table class="table">
+                    <caption>Évolution du taux de recyclage par matériau (2023)</caption>
+                    <!-- en-têtes du tableau -->
+                    <tr>
+                        <td rowspan="2" colspan="2">&nbsp;</td>
+                        <th colspan="2">Taux de recyclage</th>
+                    </tr>
+                    <tr>
+                        <th>2010</th>
+                        <th>2023</th>
+                    </tr>
+                    <!-- ligne papier/carton -->
+                    <tr>
+                        <th colspan="2">Papier/Carton</th>
+                        <td>65%</td>
+                        <td>82%</td>
+                    </tr>
+                    <!-- ligne verre -->
+                    <tr>
+                        <th colspan="2">Verre</th>
+                        <td>70%</td>
+                        <td>86%</td>
+                    </tr>
+                    <!-- ligne plastique -->
+                    <tr>
+                        <th colspan="2">Plastique</th>
+                        <td>22%</td>
+                        <td>54%</td>
+                    </tr>
+                    <!-- ligne métaux -->
+                    <tr>
+                        <th colspan="2">Métaux</th>
+                        <td>58%</td>
+                        <td>79%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <!-- pied de page avec infos complémentaires -->
+    <footer>
+        <div class="footer-grid">
+            <!-- présentation site -->
+            <div class="footer-section">
+                <h3>Recyclopedia</h3>
+                <p>Votre plateforme de référence pour un mode de vie éco-responsable. Ensemble, construisons un avenir plus durable.</p>
+                <div class="footer-social-icons">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <!-- liens navigation rapide -->
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="accueil.html">Accueil</a></li>
+                    <li><a href="conseils.html">Conseils écologiques</a></li>
+                    <li><a href="actualites.html">Actualités</a></li>
+                    <li><a href="projets.html">Projets</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- liens ressources -->
+            <div class="footer-section">
+                <h3>Ressources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Guide du recyclage</a></li>
+                    <li><a href="#">Calculateur d'empreinte carbone</a></li>
+                    <li><a href="#">Conseils zéro déchet</a></li>
+                    <li><a href="#">Partenaires</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <!-- inscription newsletter -->
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Recevez nos conseils écologiques et actualités directement dans votre boîte mail.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Votre e-mail" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- copyright en bas -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Recyclopedia. Tous droits réservés.</p>
+        </div>
+    </footer>
+    
+    <!-- bouton flottant pour remonter en haut -->
+    <a href="#" class="back-to-top" id="scrollTopBtn" aria-label="Remonter en haut de la page">
+        <i class="fas fa-angle-double-up"></i>
+    </a>
+    
+    <!-- partie javascript -->
+    <script>
+    // gestion du thème sombre/clair
+    const html = document.documentElement;
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    
+    // fonction pour appliquer le thème et sauvegarder préférence
+    function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme); // sauvegarde dans navigateur
+        if(theme === 'dark') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    }
+    
+    // fonction auto-exécutée pour charger le thème sauvegardé
+    // ou utiliser préférence système
+    (function(){
+        let saved = localStorage.getItem('theme');
+        if(!saved){
+            saved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        setTheme(saved);
+    })();
+    
+    // switch thème quand on clique sur le bouton
+    themeToggleBtn.addEventListener('click', function() {
+        setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    // quand le DOM est chargé
+    document.addEventListener('DOMContentLoaded', function() {
+        // gestion barre de progression du scroll
+        window.addEventListener('scroll', function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        });
+        
+        // affichage/masquage bouton retour en haut
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "flex";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        });
+        
+        // action du bouton retour en haut avec scroll smooth
+        scrollTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // animation d'apparition des sections au scroll
+        // utilise IntersectionObserver pour détecter visibilité
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        // observe tous les éléments avec classe animate-in
+        document.querySelectorAll('.animate-in').forEach(el => { observer.observe(el); });
+        
+        // gestion du carousel de conseils
+        const carousel = document.getElementById('tipsCarousel');
+        const slides = carousel.children.length;
+        const slideWidth = 100;
+        let currentSlide = 0;
+        
+        // bouton slide suivante
+        document.getElementById('nextTip').addEventListener('click', function() {
+            currentSlide = (currentSlide + 1) % slides; // boucle au début si dernier
+            carousel.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+        });
+        
+        // bouton slide précédente
+        document.getElementById('prevTip').addEventListener('click', function() {
+            currentSlide = (currentSlide - 1 + slides) % slides; // boucle à la fin si premier
+            carousel.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+        });
+        
+        // défilement auto du carousel toutes les 8 secondes
+        setInterval(function() {
+            currentSlide = (currentSlide + 1) % slides;
+            carousel.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+        }, 8000);
+        
+        // animation des chiffres qui comptent
+        function animateStats() {
+            const stats = [
+                { id: 'stat1', target: 1.1, unit: '°C', precision: 1 },
+                { id: 'stat2', target: 8, unit: 'M', precision: 1 },
+                { id: 'stat3', target: 68, unit: '%', precision: 1 }
+            ];
+            
+            // pour chaque stat, anime de 0 à valeur cible
+            stats.forEach(stat => {
+                const el = document.getElementById(stat.id);
+                const duration = 2000, frames = 60, interval = duration / frames;
+                let current = 0;
+                const increment = stat.target / frames;
+                
+                // setInterval pour incrémenter progressivement
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.target) {
+                        clearInterval(timer);
+                        current = stat.target;
+                    }
+                    el.textContent = current.toFixed(stat.precision).toString().replace('.', ',') + stat.unit;
+                }, interval);
+            });
+        }
+        
+        // déclenche l'animation stats quand section visible
+        const statSection = document.querySelector('.stats-container');
+        const observer2 = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer2.unobserve(entry.target); // une seule fois
+                }
+            });
+        });
+        observer2.observe(statSection);
+    });
+
+    // données du quiz écologique
+    const quizData = [
+        {
+            question: "Combien de temps met un sac plastique à se dégrader dans la nature ?",
+            options: [
+                { text: "10-20 ans", correct: false },
+                { text: "50-100 ans", correct: false },
+                { text: "400-500 ans", correct: true },
+                { text: "Plus de 1000 ans", correct: false }
+            ],
+            explanation: "Un sac plastique met entre 400 et 500 ans à se dégrader dans la nature."
+        },
+        {
+            question: "Quel est le principal gaz à effet de serre émis par les activités humaines ?",
+            options: [
+                { text: "Dioxyde de carbone (CO₂)", correct: true },
+                { text: "Ozone (O₃)", correct: false },
+                { text: "Protoxyde d'azote (N₂O)", correct: false },
+                { text: "Hélium (He)", correct: false }
+            ],
+            explanation: "Le CO₂ est le principal gaz à effet de serre émis par les activités humaines."
+        },
+        {
+            question: "Quelle est la meilleure solution pour réduire ses déchets ménagers ?",
+            options: [
+                { text: "Recycler tout ce qu'on peut", correct: false },
+                { text: "Jeter moins", correct: false },
+                { text: "Privilégier la réutilisation et le zéro déchet", correct: true },
+                { text: "Brûler ses déchets", correct: false }
+            ],
+            explanation: "Le zéro déchet et la réutilisation sont la meilleure solution. Recycler reste utile mais c'est le dernier maillon après avoir réduit et réutilisé."
+        },
+        {
+            question: "Qu'appelle-t-on l'empreinte carbone ?",
+            options: [
+                { text: "La quantité de CO₂ émise directement ou indirectement par une personne ou une activité", correct: true },
+                { text: "La marque de ses chaussures dans la boue", correct: false },
+                { text: "Un certificat écologique", correct: false },
+                { text: "L'énergie consommée par un foyer", correct: false }
+            ],
+            explanation: "L'empreinte carbone mesure la quantité de CO₂ générée par une personne ou une activité."
+        },
+        {
+            question: "Quel matériau a le taux de recyclage le plus élevé en France ?",
+            options: [
+                { text: "Papier/carton", correct: false },
+                { text: "Verre", correct: true },
+                { text: "Plastique", correct: false },
+                { text: "Métaux", correct: false }
+            ],
+            explanation: "Le verre a un taux de recyclage supérieur à 85% en France."
+        }
+    ];
+    
+    // variables pour suivre l'état du quiz
+    let quizIndex = 0;
+    let quizAnswered = false;
+    
+    // fonction pour afficher la question actuelle
+    function renderQuizQuestion() {
+        const q = quizData[quizIndex];
+        document.getElementById('quiz-multi-question').innerHTML = `<strong>Question ${quizIndex + 1} :</strong> ${q.question}`;
+        const optionsUL = document.getElementById('quiz-multi-options');
+        optionsUL.innerHTML = '';
+        
+        // création des options cliquables
+        q.options.forEach((opt, i) => {
+            const li = document.createElement('li');
+            li.textContent = opt.text;
+            li.dataset.correct = opt.correct; // stocke si réponse correcte
+            li.tabIndex = 0; // pour accessibilité clavier
+            
+            // gestion clic sur option
+            li.addEventListener('click', () => {
+                if (quizAnswered) return;
+                optionsUL.querySelectorAll('li').forEach(opt => opt.classList.remove('selected'));
+                li.classList.add('selected');
+            });
+            
+            // accessibilité clavier (enter/space)
+            li.addEventListener('keypress', (e) => {
+                if(e.key === "Enter" || e.key === " ") li.click();
+            });
+            
+            optionsUL.appendChild(li);
+        });
+        
+        // reset état feedback et bouton
+        document.getElementById('quiz-multi-feedback').textContent = '';
+        document.getElementById('quiz-multi-nextBtn').textContent = "Valider";
+        quizAnswered = false;
+    }
+    
+    // gestion du bouton valider/suivant
+    function handleQuizNext() {
+        const optionsUL = document.getElementById('quiz-multi-options');
+        const selected = optionsUL.querySelector('li.selected'); // option choisie
+        const feedback = document.getElementById('quiz-multi-feedback');
+        
+        if (!quizAnswered) {
+            // vérif réponse si pas encore répondu
+            if (!selected) {
+                feedback.textContent = "Veuillez sélectionner une réponse.";
+                feedback.style.color = 'orange';
+                return;
+            }
+            
+            quizAnswered = true;
+            
+            // affiche feedback selon si correct/incorrect
+            if (selected.dataset.correct === "true") {
+                feedback.textContent = "Bravo ! " + quizData[quizIndex].explanation;
+                feedback.style.color = 'green';
+            } else {
+                feedback.textContent = "Incorrect. " + quizData[quizIndex].explanation;
+                feedback.style.color = 'red';
+            }
+            
+            // change texte bouton pour passer à la suite
+            document.getElementById('quiz-multi-nextBtn').textContent = quizIndex === quizData.length - 1 ? "Voir le score" : "Question suivante";
+        } else {
+            // passe à la question suivante
+            quizIndex++;
+            
+            if (quizIndex < quizData.length) {
+                renderQuizQuestion();
+            } else {
+                // affiche écran de fin quiz
+                const quizContainer = document.getElementById('ecoQuizMulti');
+                quizContainer.innerHTML = `
+                    <div style="text-align:center">
+                        <h3 style="color:var(--secondary-color);margin-bottom:1em;">Quiz terminé !</h3>
+                        <p>Merci d'avoir participé au quiz écologique. Continuez à vous informer et à agir pour la planète 🌍</p>
+                        <button class="btn" id="replayQuizBtn">Rejouer le quiz</button>
+                    </div>
+                `;
+                
+                // bouton pour recommencer le quiz
+                document.getElementById('replayQuizBtn').addEventListener('click', function() {
+                    quizIndex = 0;
+                    quizContainer.innerHTML = `
+                        <div id="quiz-multi-question"></div>
+                        <ul class="quiz-options" id="quiz-multi-options"></ul>
+                        <div class="quiz-feedback" id="quiz-multi-feedback"></div>
+                        <button class="btn" id="quiz-multi-nextBtn">Valider</button>
+                    `;
+                    renderQuizQuestion();
+                    document.getElementById('quiz-multi-nextBtn').addEventListener('click', handleQuizNext);
+                });
+            }
+        }
+    }
+    
+    // initialisation du quiz au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        if(document.getElementById('quiz-multi-nextBtn')){
+            renderQuizQuestion();
+            document.getElementById('quiz-multi-nextBtn').addEventListener('click', handleQuizNext);
+        }
+    });
+
+    // calculateur d'empreinte carbone
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('carbonForm');
+        const resultContainer = document.getElementById('resultContainer');
+        const resetBtn = document.getElementById('resetCalculatorBtn');
+        const resultBar = document.getElementById('resultBar');
+        const resultText = document.getElementById('resultText');
+        const resultTips = document.getElementById('resultTips');
+        
+        // calcul au clic sur bouton calculer
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            // récupère valeurs choisies
+            const transport = parseInt(document.getElementById('transport').value);
+            const meat = parseInt(document.getElementById('meat').value);
+            const energy = parseInt(document.getElementById('energy').value);
+            
+            // calcule score total et % pour barre
+            const total = transport + meat + energy;
+            const percentage = Math.min(total / 300 * 100, 100);
+            
+            // anime barre résultat
+            resultBar.style.width = percentage + '%';
+            
+            // couleur selon score (vert/jaune/rouge)
+            if (percentage < 30) {
+                resultBar.style.backgroundColor = '#4CAF50';
+            } else if (percentage < 70) {
+                resultBar.style.backgroundColor = '#FFC107';
+            } else {
+                resultBar.style.backgroundColor = '#F44336';
+            }
+            
+            // texte feedback selon score
+            let msg, tips;
+            if (total < 90) {
+                msg = `Félicitations ! Votre empreinte carbone estimée est basse (${total} points). Vous adoptez déjà de nombreuses habitudes éco-responsables.`;
+                tips = "Pour aller plus loin : pensez à l'achat en vrac, au compostage et à la réparation d'objets plutôt qu'à leur remplacement.";
+            } else if (total < 180) {
+                msg = `Votre empreinte carbone est modérée (${total} points). Vous êtes sur la bonne voie !`;
+                tips = "Conseils pour progresser : réduisez votre consommation de viande, privilégiez les transports en commun et limitez votre consommation d'énergie.";
+            } else {
+                msg = `Votre empreinte carbone est élevée (${total} points). Mais ne vous inquiétez pas, il existe de nombreuses façons de l'améliorer !`;
+                tips = "Actions prioritaires : repensez vos modes de déplacement, réduisez votre consommation de produits animaux et optimisez votre consommation d'énergie.";
+            }
+            
+            // affiche les résultats
+            resultText.textContent = msg;
+            resultTips.textContent = tips;
+            resultContainer.style.display = 'block';
+            resetBtn.style.display = 'inline-block';
+        });
+        
+        // reset du calculateur pour refaire calcul
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function() {
+                form.reset();
+                document.getElementById('resultBar').style.width = '0%';
+                resultContainer.style.display = "none";
+                resetBtn.style.display = 'none';
+            });
+        }
+    });
+    </script>
+</body>
